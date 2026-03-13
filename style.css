@@ -563,38 +563,58 @@ body.low-power .pulsing-dot, body.android-lite-mode .pulsing-dot { animation: br
 }
 
 
-/* --- Light Theme (အဖြူရောင်) --- */
+/* --- Light Theme ကို မီးခိုးရောင် (Dark Grey) အဖြစ် ပြောင်းလဲခြင်း --- */
 .theme-light {
-    background-color: #f0f2f5 !important; /* နောက်ခံ အဖြူရောင် */
-    color: #222 !important; /* စာသား အမည်းရောင် */
+    background-color: #2b2b2b !important; /* နောက်ခံ မီးခိုးရင့်ရောင် */
+    color: #ffffff !important; /* စာသား အဖြူရောင် */
 }
 
+/* Header, Game Cards နှင့် Banners များ၏ နောက်ခံအရောင် */
 .theme-light .top-header,
 .theme-light .game-card,
 .theme-light .promo-banner {
-    background: #ffffff !important;
-    border-color: #dddddd !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    background: #3a3a3a !important; /* ကတ်များအတွက် အနည်းငယ်လင်းသော မီးခိုးရောင် */
+    border-color: #555555 !important; /* ဘောင်အရောင် */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
+/* စာသားများနှင့် ခလုတ်များ၏ အရောင် */
 .theme-light .brand-title,
 .theme-light .game-info,
 .theme-light .compact-balance-btn,
 .theme-light .ticker-text {
-    color: #333 !important;
+    color: #ffffff !important; /* စာသားအားလုံးကို အဖြူရောင်ထားမည် */
 }
 
+/* Balance ခလုတ်ဘောင် */
 .theme-light .compact-balance-btn {
-    border-color: #888 !important;
-    color: #111 !important;
+    border-color: #aaaaaa !important;
 }
 
+/* စာတန်းပြေး (Ticker) နောက်ခံ */
 .theme-light .scrolling-ticker {
-    background: #ffffff !important;
-    border-color: #eee !important;
+    background: #333333 !important;
+    border-color: #444444 !important;
 }
 
-/* Icons တွေ အရောင်ပြောင်းရန် */
+/* Icons အရောင်များ */
 .theme-light i:not(.fa-sun) {
-    color: #444 !important;
+    color: #dddddd !important;
+}
+
+
+/* --- Order & Topup History Buttons Size Adjustment --- */
+.fav-btn-main {
+    padding: 10px !important;
+    min-height: 65px !important; /* အပေါ်အောက် အမြင့်ကို လျှော့ချခြင်း */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 12px !important;
+}
+
+.fav-lottie {
+    width: 26px !important;
+    height: 26px !important;
+    margin-bottom: 5px !important;
 }
