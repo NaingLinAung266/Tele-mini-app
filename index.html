@@ -50,7 +50,7 @@
    
     
     
-       <div class="promo-banner">
+    <div class="promo-banner">
         <img src="https://i.ibb.co/yFbWgnb8/banner.jpg" alt="Main Banner" id="top-banner-img">
     </div>
 
@@ -60,13 +60,11 @@
             <div class="fav-text">Order History</div>
         </div>
         
-        <div class="fav-btn-main" onclick="openPage('page-topup-history')">
+        <div class="fav-btn-main" onclick="openPage('page-saved')">
             <div id="lottie-saved" class="fav-lottie"></div>
-            <div class="fav-text">Topup History</div>
+            <div class="fav-text">Saved Items</div>
         </div>
     </div>
-
-
 
     <div style="display: flex; align-items: center; justify-content: space-between; margin: 15px 0 10px 0; padding-right: 5px;">
         <div class="section-header" style="margin: 0; border: none; padding-left: 10px; display: flex; align-items: center; gap: 5px; cursor: pointer;" onclick="triggerAdminPanel()">
@@ -126,22 +124,13 @@
     </div>
     
     
-<div id="page-topup-history" class="page-overlay">
+<div id="page-saved" class="page-overlay">
     <div class="scrollable">
-        <div class="back-nav" onclick="closePage('page-topup-history')"><i class="fas fa-chevron-left"></i> Back</div>
-        <div class="section-header">
-            <i class="fas fa-wallet" style="color: var(--accent); margin-right: 8px;"></i> Topup History
-        </div>
-        
-        <div id="topup-history-list" style="padding: 10px;">
-            <div style="text-align:center; color:#888; font-size:12px; padding-top:40px;">
-                <i class="fas fa-history" style="font-size: 35px; margin-bottom: 15px; opacity: 0.5;"></i><br>
-                ငွေဖြည့်မှတ်တမ်း မရှိသေးပါ
-            </div>
-        </div>
+        <div class="back-nav" onclick="closePage('page-saved')"><i class="fas fa-chevron-left"></i> Back</div>
+        <div class="section-header">❤️ Saved Items</div>
+        <div id="fav-list" class="product-list"></div>
     </div>
 </div>
-
 
 <div id="page-admin-topup" class="page-overlay">
     <div style="height: 100%; width: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;">
