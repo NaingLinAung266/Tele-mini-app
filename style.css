@@ -618,3 +618,31 @@ body.low-power .pulsing-dot, body.android-lite-mode .pulsing-dot { animation: br
     height: 26px !important;
     margin-bottom: 5px !important;
 }
+
+
+/* --- ဒုတိယပုံစံအတိုင်း ခလုတ်ဒီဇိုင်း ပြင်ဆင်ခြင်း --- */
+.fav-btn-main {
+    background: transparent !important; /* နောက်ခံအရောင်ဖျက်မည် */
+    border: 1.5px solid rgba(255, 255, 255, 0.8) !important; /* အဖြူရောင်ဘောင်ထည့်မည် */
+    border-radius: 8px !important; /* ထောင့်နည်းနည်းပဲလုံးမည် */
+    height: 45px !important; /* အမြင့်ကို ပါးပါးလေးပဲထားမည် */
+    min-height: 45px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+}
+
+.fav-text {
+    font-size: 14px !important; /* စာလုံးအရွယ်အစား */
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    margin: 0 !important;
+    text-transform: none;
+}
+
+/* ခလုတ်နှိပ်လိုက်လျှင် အရောင်ပြောင်းရန် */
+.fav-btn-main:active {
+    background: rgba(255, 255, 255, 0.1) !important;
+    transform: scale(0.98);
+}
