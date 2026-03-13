@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Game Store</title>
+    
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="custom-loading-screen">
+    <div class="css-spinner"></div>
+</div>
+
+<div id="browser-block-modal" style="display:none; position:fixed; inset:0; background:#000; z-index:99999; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
+    <i class="fab fa-telegram" style="font-size: 80px; color: #0088cc; margin-bottom: 20px;"></i>
+    <h2 style="color:#fff; margin-bottom:10px;">Telegram App မှ ဖွင့်ပါ</h2>
+    <p style="color:#1cb6d1; font-size:18px; line-height:1.6; max-width:300px;">
+       <br>
+       Telegram botမှာသာသုံးပေးပါ
+    </p>
+    <a href="https://t.me/ffymoodonstore_bot" class="btn" style="margin-top:20px; background:#0088cc; color:#fff; text-decoration:none; display:inline-block; padding:12px 25px;">
+        OPEN IN TELEGRAM
+    </a>
+</div>
+
+<div id="floating-menu-container">
+    <div id="floating-main-btn">
+        <div id="lottie-download-icon" style="width: 28px; height: 28px;"></div>
+    </div>
+    <div id="floating-options">
+        <div class="float-sub-btn" onclick="downloadAPK()">
+            <i class="fab fa-android" style="color: #3ddc84; font-size: 16px;"></i> Download APK
+        </div>
+        <div class="float-sub-btn" onclick="openWebsite()">
+            <i class="fas fa-globe" style="color: #00eaff; font-size: 16px;"></i> Website
+        </div>
+    </div>
+</div>
+
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="goHomeSafely()">
+        <i class="fas fa-gamepad"></i><span>Main Menu</span>
+    </div>
+    <div class="nav-item" id="nav-vpn" onclick="playVibration(); goToVPN()">
+        <i class="fas fa-shield-alt"></i><span>VPN</span>
+    </div>
+    <div class="nav-item" id="nav-offers" onclick="playVibration(); goToOffers()">
+        <i class="fas fa-percent"></i><span>Offers</span>
+    </div>
+</div>
+
+<div id="drawer-overlay" onclick="closeDrawer()"></div>
+<div id="drawer-indicator" onclick="openDrawer()">
+    <div id="lottie-drawer-indicator" class="indicator-lottie"></div>
+</div>
+
+<div id="side-drawer">
+    <div class="drawer-header">
+        <img src="https://i.ibb.co/Y48j1zLc/user.jpg" class="drawer-profile-img" alt="Profile">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="drawer-name" id="drawer-name-display">Loading...</div>
+            <div id="drawer-role-display" style="font-size: 10px; font-weight: bold; color: #888;">Normal User</div>
+        </div>
+        <div id="reseller-stats-box" style="display:none; margin-top: 15px; padding: 12px; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid var(--accent);">
+            <div style="font-size: 11px; color: #aaa; margin-bottom: 8px; display: flex; justify-content: space-between;">
+                <span><i class="fas fa-crown" style="color:#ffcc00; margin-right:4px;"></i> Status:</span> 
+                <span id="r-status-text" style="color: #39ff14; font-weight: bold;">Active</span>
+            </div>
+            <div style="font-size: 11px; color: #aaa; margin-bottom: 8px; display: flex; justify-content: space-between;">
+                <span><i class="fas fa-clock" style="color:#ffcc00; margin-right:4px;"></i> Time Left:</span> 
+                <span id="r-days-left" style="color: #ffcc00; font-weight: bold;">... Days</span>
+            </div>
+            <div style="font-size: 11px; color: #aaa; display: flex; justify-content: space-between;">
+                <span><i class="fas fa-chart-line" style="color:#00eaff; margin-right:4px;"></i> Total Sales:</span> 
+                <span style="color: #00eaff; font-weight: bold;"><span id="r-total-sales">0</span> Ks</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="drawer-item" onclick="openResellerPage()">
+        <i class="fas fa-handshake"></i>
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+            <span>Reseller Program</span>
+            <div id="lottie-info-icon" style="width: 24px; height: 24px; pointer-events: none; filter: drop-shadow(0 0 3px var(--accent));"></div>
+        </div>
+    </div>
+    
+    <div class="qa-header" onclick="toggleQuickAccess()">
+        <span><i class="fas fa-bolt" style="color: #ffd700; margin-right: 8px;"></i> Quick Access</span>
+        <i class="fas fa-chevron-down" id="qa-icon" style="transition: transform 0.3s;"></i>
+    </div>
+
+    <div class="qa-list" id="qa-list" style="padding-bottom: 40px;">
+        <div class="qa-menu-item" onclick="goToQA('/deals?open=itunes')">
+            <i class="fab fa-apple" style="font-size: 24px; width: 24px; text-align: center;"></i> <span>iTunes US</span>
+        </div>
+        <div class="qa-menu-item" onclick="goToQA('/deals?open=steam')">
+            <i class="fab fa-steam" style="font-size: 22px; width: 24px; text-align: center;"></i> <span>Steam Wallet SG</span>
+        </div>
+        <div class="qa-menu-item" onclick="goToQA('/deals?app=capcut')">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/048/759/325/small_2x/capcut-transparent-icon-free-png.png" style="width: 24px; height: 24px; object-fit: contain; transform: scale(1.4);"> 
+            <span>CapCut Pro</span>
+        </div>
+        <div class="qa-menu-item" onclick="goToQA('/deals?app=canva')">
+            <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/canva-icon.png" style="width: 24px; height: 24px; object-fit: contain;"> 
+            <span>Canva Pro</span>
+        </div>
+        <div class="qa-menu-item" onclick="goToQA('/deals?app=chatgpt')">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/021/059/827/small_2x/chatgpt-logo-chat-gpt-icon-on-white-background-free-vector.jpg" style="width: 24px; height: 24px; border-radius: 6px; object-fit: contain;"> 
+            <span>ChatGPT Plus</span>
+        </div>
+        <div class="qa-menu-item" onclick="goToQA('/deals?app=alightmotion')">
+            <img src="https://www.pngall.com/wp-content/uploads/13/Alight-Motion-Logo.png" style="width: 24px; height: 24px; border-radius: 4px; object-fit: contain;"> 
+            <span>Alight Motion</span>
+        </div>
+        <div class="qa-menu-item" onclick="goToQA('/deals?open=premium')">
+            <i class="fab fa-telegram-plane" style="font-size: 24px; width: 24px; text-align: center; color: #2AABEE !important;"></i> <span>Telegram Premium</span>
+        </div>
+        <div class="qa-menu-item" onclick="goToQA('social.html')">
+            <img src="https://cdn-icons-png.flaticon.com/512/5973/5973511.png" style="width: 24px; height: 24px; border-radius: 4px; object-fit: contain; margin-right: 8px;"> 
+            <span>Social Media Services</span>
+        </div>
+    </div>
+</div>
+
+<div id="page-reseller" class="page-overlay">
+    <div class="scrollable">
+        <div class="back-nav" onclick="closePage('page-reseller')"><i class="fas fa-chevron-left"></i> Back</div>
+        <div class="section-header">
+            <i class="fas fa-handshake" style="color: var(--accent); margin-right: 8px;"></i> Reseller Program
+        </div>
+        <div style="margin-top: 20px;">
+            <div class="rs-accordion">
+                <div class="rs-header" onclick="toggleAccordion(this)">
+                    <span>၁။ Reseller Program ဆိုတာ ဘာလဲ?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="rs-body">
+                    <div class="rs-body-content">
+                        ကိုယ်တိုင် ပြန်ရောင်းချချင်သူတွေအတွက် Resellersဈေးနှုန်းတွေ စီစဉ်ပေးထားတာပါ။
+                        <ul>
+                            <li>၂၄ နာရီပတ်လုံး Auto ဝယ်ယူနိုင်မယ်။</li>
+                            <li>Game Dia တွေ၊ Social Services တွေအပြင် <b>ChatGPT, Canva, CapCut</b> တို့လို Premium Apps တွေကိုပါ Reseller Discount ဈေးနဲ့ ရမှာပါ။</li>
+                            <li>ရိုးရိုး User တွေထက် အမြဲတမ်း ဈေးသက်သာနေမှာပါ။</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rs-accordion">
+                <div class="rs-header" onclick="toggleAccordion(this)">
+                    <span>၂။ စတင်ဖို့ ဘာတွေလိုအပ်မလဲ?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="rs-body">
+                    <div class="rs-body-content">
+                        Reseller အဖြစ် စတင်ဖို့အတွက် အောက်ပါအတိုင်း ပေးသွင်းရပါမယ်။
+                        <ul>
+                            <li><b>လစဉ်ကြေး:</b> <span style="color:#ffcc00;">50,000 Ks</span></li>
+                            <li><b>အိတ်ကပ်ထဲက ပိုက်ဆံ (Initial Deposit):</b> <span style="color:#39ff14;">350,000 Ks</span> (ဒါက ကိုယ့် Wallet ထဲမှာ ပစ္စည်းဝယ်ဖို့ ပြန်သုံးရမယ့် ကိုယ့်ပိုက်ဆံအစစ်ပါ)</li>
+                            <li><b>စုစုပေါင်း:</b> <span style="color:#00eaff; font-weight:bold;">400,000 Ks</span> ရှိတာနဲ့ စတင်နိုင်ပါပြီ။</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rs-accordion">
+                <div class="rs-header" onclick="toggleAccordion(this)">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span>၃။ အကောင့်အသုံးပြုမှုအတွက် သတိပြုရန်</span>
+                        <div id="lottie-info-icon-2" style="width: 22px; height: 22px; pointer-events: none;"></div>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="rs-body">
+                    <div class="rs-body-content">
+                        Reseller အကောင့်ကို ဖုန်းတစ်လုံးတည်းမှာပဲ သီးသန့်သုံးပေးဖို့ အကြံပေးချင်ပါတယ်။ စနစ်က အစ်ကိုတို့ ပထမဆုံး အော်ဒါတင်လိုက်တဲ့ ဖုန်း (Device) ကိုပဲ အလိုလို မှတ်သားထားမှာပါ။
+                        <br><br>
+                        <b>⚠️ အရေးကြီးတဲ့ အချက်လေးများ:</b>
+                        <ul>
+                            <li>Telegram App ကို ဖျက်လိုက်တာ (Uninstall) ဒါမှမဟုတ် Clear Data လုပ်လိုက်တာမျိုးဆိုရင် စနစ်နဲ့ ဒီဖုန်း ချိတ်ဆက်ထားမှု ပြတ်တောက်သွားနိုင်လို့ အတတ်နိုင်ဆုံး မလုပ်မိဖို့ သတိထားပေးပါနော်။</li>
+                            <li>တကယ်လို့ ဖုန်းပျောက်သွားတာ၊ ဖုန်းအသစ်လဲတာ ဒါမှမဟုတ် မတော်တဆ Telegram ဖျက်မိလို့ ဈေးနှုန်းတွေ ရိုးရိုးဈေး ပြန်ဖြစ်သွားတယ်ဆိုရင် Admin ဆီကို လှမ်းပြောပေးပါ။ ကျွန်တော်တို့ဘက်ကနေ အဆင်ပြေအောင် Reset ပြန်လုပ်ပေးပါ့မယ်။</li>
+                            <li>ကိုယ့်အကောင့်ကို တခြားဖုန်းကနေ ဝင်ဝယ်တာမျိုး ဖြစ်ခဲ့ရင်တော့ Reseller လျှော့ဈေး ပေါ်မှာ မဟုတ်တော့ဘဲ Normal (ရိုးရိုး) ဈေးပဲ ပြန်ဖြစ်သွားပါလိမ့်မယ်။</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rs-accordion">
+                <div class="rs-header" onclick="toggleAccordion(this)">
+                    <span>၄။ Admin နဲ့ ဆက်သွယ်ရန်</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="rs-body">
+                    <div class="rs-body-content">
+                        အထက်ပါအချက်တွေကို သဘောတူတယ်၊ Reseller စလုပ်ချင်တယ်ဆိုရင် အောက်ကခလုတ်ကိုနှိပ်ပြီး Admin ဆီ တန်းပြီး လာပြောလို့ရပါပြီ။
+                        <button class="check-btn" style="width: 100%; margin-top: 15px; font-size: 13px;" onclick="window.open('https://t.me/ffymoodonadmin1', '_blank')">
+                            <i class="fab fa-telegram-plane"></i> Admin နဲ့ စကားပြောမယ်
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="page-home" class="scrollable">
+    <div id="banner-container">
+        <img id="banner-img" src="#" alt="Header Banner">
+        <div class="banner-overlay"></div>
+
+        <div class="header-icons">
+            <div id="lottie-alert" style="width:30px; height:30px; cursor:pointer; filter: invert(1) drop-shadow(0 0 2px rgba(255,255,255,0.5));" onclick="showPowerInfo()"></div>
+            <div class="theme-btn" id="lp-btn" onclick="toggleLowPower()"><i class="fas fa-leaf"></i></div>
+            <div class="theme-btn" onclick="toggleTheme()"><i class="fas fa-palette"></i></div>
+        </div>
+
+        <div class="change-bg-btn" onclick="openGifModal()" style="position: absolute; bottom: 55px; right: 15px; z-index: 10;">
+           <div id="lottie-image" style="width:26px; height:26px; filter: invert(1);"></div>
+        </div>
+    </div> 
+
+    <div class="wallet-card">
+        <div>
+            <div id="app-profile-btn" onclick="openProfileModal()" style="display: none; background: rgba(0, 234, 255, 0.1); border: 1px solid rgba(0, 234, 255, 0.3); padding: 4px 10px; border-radius: 12px; align-items: center; gap: 6px; margin-bottom: 8px; cursor: pointer; width: fit-content;">
+                <img src="https://i.ibb.co/Y48j1zLc/user.jpg" style="width: 20px; height: 20px; border-radius: 50%; object-fit: cover; margin-right: 2px;">
+                <span id="app-username-text" style="color: #fff; font-size: 11px; font-weight: bold;">Loading...</span>
+            </div>
+
+            <div class="wallet-label">YOUR BALANCE</div>
+            <div style="display:flex; align-items:center; gap: 10px;">
+                <div class="wallet-amt" id="user-balance" onclick="openDailyStats()" style="cursor: pointer;">... Ks</div>
+                <i class="fas fa-eye eye-icon" onclick="toggleBalance(this)"></i>
+                <div class="theme-btn" style="width:32px; height:32px; background:rgba(0,0,0,0.3); border:1px solid var(--glass-border);" onclick="openWalletHistory()">
+                   <div id="lottie-history" style="width:24px; height:24px; filter: invert(1);"></div>
+                </div>
+            </div>
+        </div>
+        <button class="topup-btn" onclick="openDeposit()">TOP UP</button>
+    </div>
+
+    <div class="live-feed-container">
+        <div class="feed-header">
+           <div class="header-left">
+               <span class="pulsing-dot"></span>
+               <span>Live Purchases</span>
+           </div>
+           
+           <div class="total-sales-badge">
+               <div class="total-sales-icon">
+                   <i class="fas fa-chart-line" style="font-size: 10px;"></i>
+               </div>
+               <span id="totalSales" style="font-size: 11px; font-weight: 900; color: var(--accent); letter-spacing: 0.5px;">0 Ks</span>
+           </div>
+        </div>
+        <div id="feedList" class="feed-list">
+            <div style="text-align:center; color:#888; font-size:11px; padding-top:15px;">Loading data...</div>
+        </div>
+    </div>
+
+    <div class="menu-grid">
+        <div class="fav-btn-main" onclick="openOrderHistory()">
+            <div id="lottie-order" class="fav-lottie"></div>
+            <div class="fav-text">Order History</div>
+        </div>
+        
+        <div class="fav-btn-main" onclick="openPage('page-saved')">
+            <div id="lottie-saved" class="fav-lottie"></div>
+            <div class="fav-text">Saved Items</div>
+        </div>
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: space-between; margin: 15px 0 10px 0; padding-right: 5px;">
+        <div class="section-header" style="margin: 0; border: none; padding-left: 10px; display: flex; align-items: center; gap: 5px; cursor: pointer;" onclick="triggerAdminPanel()">
+            <img src="https://media.tenor.com/PRcQePKtLYYAAAAj/blue-blueflame.gif" style="width: 33px; height: auto; object-fit: contain; margin-top: -10px; mix-blend-mode: screen; filter: drop-shadow(0 0 8px #00eaff);" alt="blue fire">
+            <span class="bouncing-text">Popular Games</span>
+        </div>
+
+        <div id="admin-status-pill" onclick="openStatusModal()" style="display:none; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 30px; padding: 3px 3px 3px 10px; align-items: center; gap: 8px; cursor: pointer; backdrop-filter: blur(5px);">
+            <div id="pill-text" style="font-size: 9px; color: #aaa; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">LOADING</div>
+            <div id="pill-border" style="width: 26px; height: 26px; border-radius: 50%; overflow: hidden; border: 2px solid #333; position: relative;">
+                <img id="pill-gif" src="#" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+    </div>
+    
+    <div class="game-grid">
+        <div class="game-card gm-mlbb" onclick="openGame('mlbb_global')">
+            <div class="game-img-box"><img src="https://fls-a09dce4a-8b00-44f8-aa66-c91c285e16f1.laravel.cloud/games/logo/01KAAXVNSRK8Q84Q3ASY2FM8T6.webp" class="game-img"></div>
+            <div class="game-info">Mobile Legends</div>
+        </div>
+        <div class="game-card gm-pubg" onclick="openGame('pubg')">
+            <div class="game-img-box"><img src="https://fls-a09dce4a-8b00-44f8-aa66-c91c285e16f1.laravel.cloud/games/logo/01KAAWQB61NX7B536TT5MFN405.png" class="game-img"></div>
+            <div class="game-info">PUBG Mobile</div>
+        </div>
+        <div class="game-card gm-hok" onclick="openGame('hok')">
+            <div class="game-img-box"><img src="https://fls-a09dce4a-8b00-44f8-aa66-c91c285e16f1.laravel.cloud/games/logo/01KAAXP35Y0373H3SY785GRJZH.jpeg" class="game-img" referrerpolicy="no-referrer"></div>
+            <div class="game-info">Honor of Kings</div>
+        </div>
+        <div class="game-card gm-roblox" onclick="openGame('roblox')">
+            <div class="game-img-box"><img src="https://i.ibb.co/NcMg49D/robloxposter.png" class="game-img"></div>
+            <div class="game-info" style="color:#fff;">Roblox (Via Login)</div>
+        </div>
+        <div class="game-card gm-wwm" onclick="openGame('wwm')">
+            <div class="game-img-box"><img src="https://fls-a09dce4a-8b00-44f8-aa66-c91c285e16f1.laravel.cloud/games/logo/01KC8SG73NX28DDA1C1WRDQAZ2.webp" class="game-img" referrerpolicy="no-referrer"></div>
+            <div class="game-info">Where Winds Meet</div>
+        </div>
+        <div class="game-card gm-heart" onclick="openGame('heartopia')">
+            <div class="game-img-box"><img src="https://seagm-media.seagmcdn.com/material/3335174f.png" class="game-img" referrerpolicy="no-referrer"></div>
+            <div class="game-info">Heartopia</div>
+        </div>
+        <div class="game-card gm-ff" onclick="openGame('ff_global')">
+            <div class="game-img-box"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgKcYy3Bz0A631UeGgSvYcCJFhlda74e_XBPyw0WJK/s1920/free-fire-free-printable-posters-002.jpg" class="game-img" referrerpolicy="no-referrer"></div>
+            <div class="game-info">Free Fire</div>
+        </div>
+        <div class="game-card gm-magic" onclick="openGame('magic_chess')">
+            <div class="game-img-box"><img src="https://cdn-www.bluestacks.com/bs-images/fe6bf0a098f4b3a729784d6e3d5e04fd.webp" class="game-img" referrerpolicy="no-referrer"></div>
+            <div class="game-info">Magic Chess-GO GO</div>
+        </div>
+        <div class="game-card gm-ssof" onclick="openGame('sword_of_justice')">
+            <div class="game-img-box"><img src="https://play-lh.googleusercontent.com/dLtB74471rUCzXupnsZrBNKOSWanZvcWCjoORxBMiRiP4W1S7wzeGMfdhrvrQ1Ro3Q=w240-h480-rw" class="game-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3408/3408506.png'"></div>
+            <div class="game-info">Sword Of Justice</div>
+        </div>
+        
+        <div class="game-card gm-bs" onclick="openGame('blood_strike')">
+            <div class="game-img-box"><img src="https://images.g2a.com/300x400/1x1x1/blood-strike-5800-gold-galaxylink-key-global-i10000014513009/e19bf969c69648cf9c767929" class="game-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3408/3408506.png'"></div>
+            <div class="game-info">Blood Strike</div>
+        </div>
+    </div>
+    
+    <div style="height: 120px; width: 100%; clear: both;"></div>
+</div>
+
+<div id="page-saved" class="page-overlay">
+    <div class="scrollable">
+        <div class="back-nav" onclick="closePage('page-saved')"><i class="fas fa-chevron-left"></i> Back</div>
+        <div class="section-header">❤️ Saved Items</div>
+        <div id="fav-list" class="product-list"></div>
+    </div>
+</div>
+
+<div id="page-admin-topup" class="page-overlay">
+    <div style="height: 100%; width: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;">
+        <div class="back-nav" style="position: absolute; top: 25px; left: 25px; z-index: 10;" onclick="closePage('page-admin-topup'); document.getElementById('deposit-modal').style.display='flex';"><i class="fas fa-chevron-left"></i> Back</div>
+        <div class="input-container" style="text-align:center; padding: 20px 15px; width: 85%; max-width: 260px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.7); border-radius: 18px;">
+            <a href="https://t.me/ffymoodonadmin1" target="_blank" style="display:inline-block; cursor:pointer;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" style="width:40px; margin-bottom:8px; filter: drop-shadow(0 0 10px rgba(0,136,204,0.4)); transition: transform 0.2s;" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'">
+            </a>
+            <p style="color:#fff; font-size:11px; line-height:1.4; font-weight: 500; margin-bottom: 8px;">ငွေလွှဲပြေစာ (Slip) မတင်တတ်ပါက Admin ထံ တိုက်ရိုက်ဆက်သွယ်ပြီး ငွေဖြည့်နိုင်ပါသည်။ IDနံပါတ်copyယူလာပေးပါ </p>
+            <div style="background:rgba(255,255,255,0.08); padding:8px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); margin-bottom:12px; margin-top: 5px;">
+                <div style="font-size:9px; color:#aaa; letter-spacing: 0.5px; text-transform:uppercase;">Your User ID</div>
+                <div id="display-user-id" style="font-size:16px; font-weight:900; color:#fff; letter-spacing:1px; margin-top:2px;">LOADING...</div>
+            </div>
+            <button class="btn" style="width:180px; margin: 0 auto 8px auto; background: linear-gradient(45deg, #ff00cc, #333399); border: none; color: #fff; font-size: 11px; height: 35px; border-radius: 50px; box-shadow: 0 0 10px rgba(255, 0, 204, 0.3); display:flex; align-items:center; justify-content:center; font-weight:bold;" onclick="copyUserID()"><i class="fas fa-copy" style="margin-right: 6px;"></i> COPY ID</button>
+            <a href="https://t.me/ffymoodonadmin1" target="_blank" class="btn" style="width:180px; margin: 0 auto; background: rgba(0, 136, 204, 0.15); border: 1px solid #0088cc; color: #0088cc; font-size: 11px; height: 35px; border-radius: 50px; text-decoration:none; display:flex; align-items:center; justify-content:center; font-weight:bold;"><i class="fab fa-telegram-plane" style="margin-right:6px; font-size:14px;"></i> Chat with Admin</a>
+        </div>
+    </div>
+</div>
+
+<div id="page-product" class="page-overlay">
+    <div style="position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: rgba(20, 20, 20, 0.2); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); z-index: 100; box-sizing: border-box; height: 60px;">
+        <div class="back-nav" onclick="goHome()" style="margin:0; cursor: pointer; z-index: 1001; position: relative;">
+            <i class="fas fa-chevron-left" style="font-size: 18px; padding: 10px;"></i> Back
+        </div>
+        <div onclick="openDeposit()" style="border: 1px solid rgba(255,255,255,0.1); background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); color: var(--accent); text-shadow: 0 0 10px var(--accent); padding: 4px 6px 4px 12px; border-radius: 50px; font-size: 13px; font-weight: 900; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s ease;">
+            <i class="fas fa-wallet" style="font-size: 11px;"></i>
+            <span id="header-balance">Loading...</span>
+            <div id="lottie-chevron" style="width: 20px; height: 20px; filter: drop-shadow(0 0 2px var(--accent));"></div>
+        </div>
+    </div>
+    <div class="scrollable" style="padding-top: 70px !important;"> 
+        <div class="input-container" id="main-input-container" style="position: relative; overflow: hidden; z-index: 1;">
+            <div class="history-row" id="top-action-row" style="position: relative; z-index: 5;">
+                <div class="history-btn" id="main-history-btn" onclick="openHistory()"><i class="fas fa-clock"></i> Recent IDs</div>
+                <div class="history-btn hidden" id="roblox-history-btn" onclick="openRobloxHistory()" style="border: 1px solid var(--accent); color: #fff;"><i class="fas fa-receipt" style="color: var(--accent);"></i> Order Details</div>
+            </div>
+            <div id="roblox-info-box" style="display:none; background: rgba(255, 165, 0, 0.1); border: 1px solid rgba(255, 165, 0, 0.3); border-radius: 12px; margin-bottom: 15px; overflow: hidden;">
+                <div onclick="toggleRobloxInfo()" style="padding: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: #ffcc80; font-size: 13px; font-weight: bold;">
+                    <span><i class="fas fa-exclamation-circle me-1"></i> ၀ယ်ယူရန် ဖတ်ပါ (Read Me)</span>
+                    <i id="roblox-info-icon" class="fas fa-chevron-down" style="transition: 0.3s;"></i>
+                </div>
+                <div id="roblox-info-content" style="display: none; padding: 0 12px 12px 12px; font-size: 13px; color: #eee; line-height: 1.8; border-top: 1px dashed rgba(255, 165, 0, 0.2); margin-top: 5px; padding-top: 10px;">
+                    - <b style="color: #ffffff;">ကြာချိန်:</b> <span style="color:#00eaff">15မိနစ် & တစ်နာရီ </span><br>
+                    - <b style="color: #ffffff;">လိုအပ်ချက်:</b> <b style="color: #ffffff;">Backup Codes</b> လိုအပ်ပါမည်。<br>
+                    - <b style="color: #ffffff;">ယုံကြည်စိတ်ချမှု:</b> Backup code ပေးရလို့ စိတ်ချရပါတယ်။ Admin ဘက်က 100% အာမခံပေးပါတယ်။<br>
+                    - <b style="color: #ffffff;">သတိပြုရန်:</b> Backup code က (Single-use) တွေ ဖြစ်တဲ့အတွက် တစ်ခုကို တစ်ကြိမ်ပဲ အသုံးပြုလို့ ရပါမယ်။ နောက်ပိုင်းသုံးဖို့အတွက် ကျန်တဲ့ Code တွေကို ကိုယ့်ဘာသာ သေချာ မှတ်ထားဖို့လိုပါမယ်။ သုံးပြီးသား Code ပေးမရပါ။<br>
+                    - <b style="color: #ff3333;">အရေးကြီး:</b> <span style="color: #ffccf2;">ဝယ်ယူထားစဉ် Game လုံးဝမဆော့ပါနှင့်။ အကောင့်ထဲသို့ လုံးဝ (လုံးဝ) ဝင်မကြည့်ပါနှင့်။ ဝယ်ယူမှုအောင်မြင်မှသာအကောင့်ထဲ၀င်ပေးပါ </span><br>
+                    <div style="margin-top: 10px; text-align: center;">
+                        <button onclick="openTutorialModal()" style="background: rgba(0, 234, 255, 0.15); border: 1px solid #00eaff; color: #00eaff; padding: 10px 15px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; width: 100%;">
+                            <i class="fas fa-images"></i> Backup Code ဘယ်လိုယူရမလဲ ကြည့်ရန်
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="input-row" id="main-input-row">
+                <input type="text" id="inp-id" placeholder="User ID">
+                <input type="text" id="inp-zone" placeholder="Zone ID">
+            </div>
+            <input type="text" id="inp-note" class="hidden" style="width: 100%; box-sizing: border-box; margin-bottom: 15px; font-size: 13px;" placeholder="Backup Code">
+            <div id="check-btn-group" style="display: flex; gap: 10px;">
+                <button class="check-btn" style="flex: 2;" onclick="checkID()"><i class="fas fa-search"></i> CHECK ID</button>
+                <button class="check-btn" style="flex: 1; background: #333; color: #fff; border: 1px solid #555;" onclick="pasteAndCheck()"><i class="fas fa-paste"></i> PASTE</button>
+            </div>
+            <div class="ign-text" id="ign-display"></div>
+        </div>
+        <div id="server-switch-container"></div>
+        <div id="product-container"></div>
+    </div>
+</div>
+
+<div id="checkout-bar">
+    <div><div style="font-size:10px; color:var(--text-sec);">TOTAL</div><div id="total-price" style="font-size:20px; font-weight:800; color:#fff;">0 Ks</div></div>
+    <button class="btn" id="btn-buy" onclick="buyItem()">BUY NOW</button>
+</div>
+
+<div id="info-popup"><span class="text-red">First Rechargeပါ</span><br>အရင်က ကိုယ့်အကောင့်မှာ <span class="text-red">50+50 500+500</span>တို့မဝယ်ဖူးတဲ့သူတွေပဲ အပြည့်ရမှာပါ<br><br>ဝယ်ဖူးပါက <span class="text-red">50+5 150+15 250+25 500+50</span>ပဲရပါမယ် မဝယ်ဖူးလျှင် ပုံထဲကအတိုင်း Doubleအပြည့်ရပါမယ်</div>
+
+<div id="warning-modal">
+    <div class="modal-content" style="max-width:300px; text-align:center;">
+        <h3 style="color:#00f2ff; margin-bottom:15px;">First Recharge</h3>
+        <p style="font-size:12px; line-height:1.6; color:#ddd; margin-bottom:20px;"><span class="text-red">First Rechargeပါ</span><br>အရင်က ကိုယ့်အကောင့်မှာ <span class="text-red">50+50 500+500</span>တို့မဝယ်ဖူးတဲ့သူတွေပဲ အပြည့်ရမှာပါ<br><br>ဝယ်ဖူးပါက <span class="text-red">50+5 150+15 250+25 500+50</span>ပဲရပါမယ် မဝယ်ဖူးလျှင် ပုံထဲကအတိုင်း Doubleအပြည့်ရပါမယ်</p>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+            <button class="btn" style="width:100%; background:#2890a7; color:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.3);" onclick="confirmBuy()">Okay</button>
+            <button class="btn" style="width:100%; background:rgba(255,0,0,0.2); border:1px solid red; color:red; box-shadow:none;" onclick="cancelBuy()">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="quick-buy-modal">
+    <div class="modal-content">
+        <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+            <h3 style="margin:0;">⚡ Quick Buy</h3>
+            <i class="fas fa-times" onclick="document.getElementById('quick-buy-modal').style.display='none'" style="cursor:pointer; font-size:20px;"></i>
+        </div>
+        <div id="qb-item-info" style="margin-bottom:15px; font-weight:bold; color:var(--diamond-blue);"></div>
+        <div class="input-container" style="padding:15px; margin-bottom:15px;">
+            <div class="history-row"><div class="history-btn" id="qb-history-btn" onclick="openHistory('qb')"><i class="fas fa-clock"></i> History</div></div>
+            <div class="input-row" id="qb-input-row">
+                <input type="text" id="qb-id" class="inp-70" placeholder="User ID">
+                <input type="text" id="qb-zone" class="inp-30" placeholder="Zone ID">
+            </div>
+            <input type="text" id="qb-note" class="hidden" style="width: 100%; box-sizing: border-box; margin-bottom: 15px; font-size: 13px;" placeholder="Backup Code">
+            <div style="display:flex; gap:10px;">
+                <button class="check-btn" style="flex:2;" onclick="checkID('qb')">CHECK ID</button>
+                <button class="check-btn" style="flex:1; background:#333; color:#fff; border:1px solid #555;" onclick="pasteAndCheck()">PASTE</button>
+            </div>
+            <div class="ign-text" id="qb-ign-display"></div>
+        </div>
+        <button class="btn" id="qb-btn-buy" style="width:100%;" onclick="buyItem('qb')">BUY NOW</button>
+    </div>
+</div>
+
+<div id="order-history-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:12000; justify-content:center; align-items:center; backdrop-filter: blur(3px);">
+    <div class="modal-content" style="width: 85%; max-width: 320px; height: 70vh; display: flex; flex-direction: column; padding: 0; overflow: hidden;">
+        <div style="padding: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <h3 style="color:#fff; font-size: 15px; margin: 0; font-weight: 700;">
+                <i class="fas fa-receipt" style="color:var(--accent); margin-right:6px;"></i> Order History
+            </h3>
+        </div>
+        <div id="order-history-list" class="history-list" style="flex:1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 10px;"></div>
+        <div style="padding: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <button style="width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 13px; padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; backdrop-filter: blur(5px); transition: background 0.2s;" onclick="document.getElementById('order-history-modal').style.display='none'">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div id="detailsModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:20000; justify-content:center; align-items:center; padding:20px; backdrop-filter: blur(5px);" onclick="if(event.target===this) closeDetailsModal()">
+    <div class="modal-content" style="background: #1a1a1a; border: 1px solid var(--accent); border-radius: 16px; width: 100%; max-width: 320px; padding: 0; overflow: hidden; box-shadow: 0 0 25px rgba(0,0,0,0.6);">
+        <div style="padding: 15px 18px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05);">
+            <h5 style="margin: 0; font-size: 16px; color: #fff; font-weight: bold;"><i class="fas fa-receipt" style="color:var(--accent); margin-right:8px;"></i>Order Details</h5>
+            <i class="fas fa-times" onclick="closeDetailsModal()" style="font-size: 18px; color: #aaa; cursor: pointer;"></i>
+        </div>
+        <div style="padding: 10px 18px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 5px;">
+                <tr>
+                    <td style="padding: 12px 5px; border-bottom: 1px dashed rgba(255,255,255,0.15); color: var(--text-sec); font-weight: 600; width: 35%; font-size: 13px;">Service</td>
+                    <td id="det-service" style="padding: 12px 5px; border-bottom: 1px dashed rgba(255,255,255,0.15); color: #fff; text-align: right; font-weight: bold; font-size: 14px;">...</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px 5px; border-bottom: 1px dashed rgba(255,255,255,0.15); color: var(--text-sec); font-weight: 600; font-size: 13px;">Target</td>
+                    <td id="det-target" style="padding: 12px 5px; border-bottom: 1px dashed rgba(255,255,255,0.15); color: #fff; text-align: right; font-weight: bold; font-size: 12px; word-break: break-all;">...</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px 5px; border-bottom: 1px dashed rgba(255,255,255,0.15); color: var(--text-sec); font-weight: 600; font-size: 13px;">Quantity</td>
+                    <td style="padding: 12px 5px; border-bottom: 1px dashed rgba(255,255,255,0.15); color: #fff; text-align: right; font-weight: bold; font-size: 14px;">1</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px 5px; border-bottom: 1px dashed rgba(255,255,255,0.15); color: var(--text-sec); font-weight: 600; font-size: 13px;">Information</td>
+                    <td id="det-info" style="padding: 12px 5px; border-bottom: 1px dashed rgba(255,255,255,0.15); color: #aaa; text-align: right; font-weight: normal; font-size: 12px; line-height: 1.5;">...</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px 5px; border-bottom: 1px dashed rgba(255,255,255,0.15); color: var(--text-sec); font-weight: 600; font-size: 13px;">Price</td>
+                    <td id="det-price" style="padding: 12px 5px; border-bottom: 1px dashed rgba(255,255,255,0.15); color: var(--accent); text-align: right; font-weight: bold; font-size: 14px;">...</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px 5px; border-bottom: 1px dashed rgba(255,255,255,0.15); color: var(--text-sec); font-weight: 600; font-size: 13px;">Status</td>
+                    <td id="det-status" style="padding: 12px 5px; border-bottom: 1px dashed rgba(255,255,255,0.15); color: #fff; text-align: right; font-weight: bold; font-size: 14px;">...</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px 5px; color: var(--text-sec); font-weight: 600; font-size: 13px;">Order Date</td>
+                    <td id="det-date" style="padding: 12px 5px; font-size:12px; color:#aaa; text-align: right; font-weight: bold;">...</td>
+                </tr>
+            </table>
+        </div>
+        <button onclick="closeDetailsModal()" style="width: 100%; padding: 15px; background: #222; color: #fff; border: none; border-top: 1px solid #333; font-weight: bold; font-size: 14px; cursor: pointer;">CLOSE</button>
+    </div>
+</div>
+
+<div id="success-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:10000; justify-content:center; align-items:center; padding:20px;">
+    <div class="modal-content">
+        <i class="fas fa-check-circle success-icon"></i>
+        <div class="success-text">ဝယ်ယူမှု အောင်မြင်ပါသည်!</div>
+        <p style="color:#aaa; font-size:13px;">ဝယ်ယူထားသော items သင့်အကောင့်ထဲ ထည့်ပြီးပါပြီ။</p>
+        <button class="btn" style="width:100%; margin-top:15px;" onclick="document.getElementById('success-modal').style.display='none'">OK</button>
+    </div>
+</div>
+
+<div id="id-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:10000; justify-content:center; align-items:center; padding:20px;">
+    <div class="modal-content">
+        <h3>⚠️ Enter ID</h3>
+        <p style="color:var(--text-sec);">Please enter Game ID first.</p>
+        <button class="btn" style="width:100%;" onclick="document.getElementById('id-modal').style.display='none'; document.getElementById('inp-id').focus();">OK</button>
+    </div>
+</div>
+
+<div id="history-modal" style="display:none; position:fixed; inset:0; background:rgba(55, 53, 53, 0.041); z-index:12000; justify-content:center; align-items:center; backdrop-filter: blur(5px);">
+    <div class="modal-content" style="width: 85% !important; max-width: 320px !important; height: 60vh !important; background: rgba(30, 30, 30, 0.5) !important; backdrop-filter: blur(30px) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important; border-radius: 24px !important; padding: 0 !important; overflow: hidden; display: flex; flex-direction: column;">
+        <div style="padding: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2);">
+            <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #fff;">
+                <i class="fas fa-clock" style="color:var(--accent); margin-right: 6px;"></i> Recent IDs
+            </h3>
+        </div>
+        <div id="history-list" class="history-list" style="flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 10px;"></div>
+        <div style="padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; background: rgba(0,0,0,0.2);">
+            <button style="width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 13px; padding: 10px; border-radius: 12px; font-weight: 600; cursor: pointer;" onclick="document.getElementById('history-modal').style.display='none'">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="deposit-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:10000; justify-content:center; align-items:center; padding:20px;">
+    <div class="modal-content" style="max-width:350px; max-height: 85vh; overflow-y: auto;">
+        <div style="margin-bottom:10px; background:rgba(255,255,255,0.05); padding:10px; border-radius:12px; display:flex; align-items:center; cursor:pointer; border:1px solid var(--glass-border);" onclick="document.getElementById('deposit-modal').style.display='none'; openPage('page-admin-topup');">
+            <div style="width:35px; height:35px; background:#0088cc; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-right:10px;"><i class="fab fa-telegram-plane" style="color:#fff; font-size:18px;"></i></div>
+            <div style="text-align:left;"><div style="font-size:12px; font-weight:bold; color:#fff;">Contact Admin</div><div style="font-size:9px; color:var(--text-sec);">ငွေလွှဲပြေစာမတင်တတ်လျှင်နှိပ်ပါ</div></div>
+            <i class="fas fa-chevron-right" style="margin-left:auto; color:#777; font-size: 12px;"></i>
+        </div>
+
+        <div style="background: rgba(255, 51, 51, 0.08); border: 1px solid rgba(255, 51, 51, 0.3); border-radius: 10px; margin-bottom: 15px; overflow: hidden;">
+            <div onclick="const content = document.getElementById('tips-content'); const icon = document.getElementById('tips-icon'); if(content.style.display === 'none'){ content.style.display='block'; icon.style.transform='rotate(180deg)'; } else { content.style.display='none'; icon.style.transform='rotate(0deg)'; }" style="padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: rgba(255, 51, 51, 0.05);">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-exclamation-triangle" style="color: #ff3333; font-size: 13px;"></i>
+                    <span style="color: #ff3333; font-size: 11px; font-weight: bold; letter-spacing: 0.3px;">Noteကို Payment တခုပဲရေးပေးပါ</span>
+                </div>
+                <i id="tips-icon" class="fas fa-chevron-down" style="color: #ff3333; font-size: 12px; transition: transform 0.3s;"></i>
+            </div>
+            <div id="tips-content" style="display: none; padding: 0 12px 10px 12px; border-top: 1px dashed rgba(255, 51, 51, 0.2); margin-top: 5px; padding-top: 10px;">
+                <div style="display: flex; align-items: start; gap: 8px; text-align: left;">
+                    <i class="fas fa-lightbulb" style="color: #ffd700; font-size: 14px; margin-top: 2px;"></i>
+                    <div style="font-size: 10px; color: #ccc; line-height: 1.6;">
+                        <span style="color:#ffd700; font-weight:bold;">Tips:</span> Logo ကို <b style="color:#fff">၁ ချက်နှိပ်</b> လျှင် Copy ကူးမည်။<br> <b style="color:#fff">၂ ချက်ဆက်တိုက်နှိပ်</b> လျှင် QR Code ပေါ်မည်။
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="pay-grid" style="gap: 8px; margin-bottom: 10px;">
+            <div class="pay-card pay-kbz" onclick="handlePayTap('09794195735', 'https://i.ibb.co/dJMHbm8T/IMG-4321.jpg')">
+                <div class="pay-inner">
+                    <img src="https://i.pinimg.com/736x/32/b3/1b/32b31b0b9e8ed68f05e52818d3b37bad.jpg" class="pay-logo">
+                    <div class="pay-info">
+                        <div class="pay-num">09794195735</div>
+                        <div class="pay-name">Thidar Nwe (Kpay)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="pay-card pay-wave" onclick="handlePayTap('09760793508', 'https://i.ibb.co/wr0K3ZHV/IMG-2715.jpg')">
+                <div class="pay-inner">
+                    <img src="https://play-lh.googleusercontent.com/rPq4GMCZy12WhwTlanEu7RzxihYCgYevQHVHLNha1VcY5SU1uLKHMd060b4VEV1r-OQ=w240-h480-rw" class="pay-logo" onerror="this.src='https://yt3.googleusercontent.com/ytc/AIdro_k6-hV_J-8V8J5X5S5R5R5R5R5R5R5R5R5R5R=s900-c-k-c0x00ffffff-no-rj'">
+                    <div class="pay-info"><div class="pay-num">09760793508</div><div class="pay-name">MNP (Wave Pay)</div></div>
+                </div>
+            </div>
+            <div class="pay-card pay-uab" onclick="handlePayTap('09794195735', 'https://i.ibb.co/23mHbXtb/IMG-0834.jpg')">
+                <div class="pay-inner">
+                    <img src="https://play-lh.googleusercontent.com/j1ZiQVB8jFi2sZslkh1vN419gvRIN5VGif6749zljhWldRjmC7_dOF_y1jcuq3rwnQ=w600-h300-pc0xffffff-pd" class="pay-logo">
+                    <div class="pay-info"><div class="pay-num">09794195735</div><div class="pay-name">MNP (UAB PAY)</div></div>
+                </div>
+            </div>
+            <div class="pay-card pay-aya" onclick="handlePayTap('09794195735', 'https://i.ibb.co/gFf5zWLs/IMG-0831.jpg')">
+                <div class="pay-inner">
+                    <img src="https://play-lh.googleusercontent.com/Lgulng3ncFuuFVYTmT-JQxuZ_IQ9-iPCojY5lM6c3wK9uvSx_ZRqLGcq8dTQcez1HDvQiSvfmJHZN1EHg1oWfLk" class="pay-logo">
+                    <div class="pay-info"><div class="pay-num">09794195735</div><div class="pay-name">MNP (AYA)</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="amount-options">
+            <div class="amount-tag" onclick="selectAmount(5000, this)">5,000</div>
+            <div class="amount-tag" onclick="selectAmount(10000, this)">10,000</div>
+            <div class="amount-tag" onclick="selectAmount(50000, this)">50,000</div>
+            <div class="amount-tag" onclick="selectAmount(100000, this)">100,000</div>
+        </div>
+
+        <input type="number" id="dep-amount" placeholder="အခြားပမာဏ ရိုက်ထည့်ပါ..." enterkeyhint="done" style="margin-top:0px; margin-bottom: 8px; width: 100%; box-sizing: border-box; padding: 10px; font-size: 14px;">
+        
+        <div class="upload-btn" style="width: 50%; margin: 10px auto; padding: 10px; border: 1px dashed var(--text-sec); border-radius: 12px; cursor: pointer; text-align: center; background: rgba(255,255,255,0.05); display: block;" onclick="triggerFileSelect()">
+            <div id="dep-txt" style="font-size: 11px; color: var(--text-sec); font-weight: 500;">📸 Upload Receipt</div>
+            <input type="file" id="dep-file" accept="image/png, image/jpeg, image/jpg" style="display: none;" onchange="handleNativeFileSelect(event)">
+            <input type="hidden" id="dep-file-base64">
+        </div>
+        
+        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+            <button class="btn" style="width: 110px; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-sec); padding: 8px; font-size: 13px; border-radius: 50px;" onclick="document.getElementById('deposit-modal').style.display='none'">Cancel</button>
+            <button class="btn" id="btn-submit-dep" style="width: 110px; padding: 8px; font-size: 14px; border-radius: 50px;" onclick="submitDeposit()">Submit</button>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
