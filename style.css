@@ -569,6 +569,17 @@ body.low-power .pulsing-dot, body.android-lite-mode .pulsing-dot { animation: br
     color: #ffffff !important; /* စာသား အဖြူရောင် */
 }
 
+/* Light Mode မှာ ခလုတ်ဘေးက Glow ဖျောက်ရန် */
+.theme-light .theme-btn {
+    box-shadow: none !important;
+    border-color: #888 !important;
+}
+
+/* Balance ခလုတ်ဘေးက Glow ကိုပါ ဖျောက်ချင်လျှင် */
+.theme-light .compact-balance-btn {
+    box-shadow: none !important;
+}
+
 /* Header, Game Cards နှင့် Banners များ၏ နောက်ခံအရောင် */
 .theme-light .top-header,
 .theme-light .game-card,
@@ -645,4 +656,24 @@ body.low-power .pulsing-dot, body.android-lite-mode .pulsing-dot { animation: br
 .fav-btn-main:active {
     background: rgba(255, 255, 255, 0.1) !important;
     transform: scale(0.98);
+}
+
+/* Page Overlays (Topup History စသည်) ကို Theme အလိုက် အရောင်ပြောင်းရန် */
+.theme-light .page-overlay {
+    background-color: #2b2b2b !important; /* Light Mode နောက်ခံ */
+    color: #ffffff !important;
+}
+
+.theme-light .section-header {
+    color: #ffffff !important;
+    text-shadow: none !important;
+}
+
+.theme-light .back-nav {
+    color: #ffffff !important;
+}
+
+/* Light Mode မှာ စာသားတွေကို ပိုကြည်လင်အောင် ထားပေးခြင်း */
+.theme-light #topup-history-list div {
+    color: #dddddd !important;
 }
