@@ -487,3 +487,58 @@ body.low-power .pulsing-dot, body.android-lite-mode .pulsing-dot { animation: br
     display: block;
     object-fit: cover;
 }
+
+
+/* --- Top Header Design --- */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(20, 20, 20, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.brand-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 900;
+    font-style: italic;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.brand-title i {
+    font-size: 24px;
+    filter: drop-shadow(0 0 5px #00eaff);
+}
+
+/* --- Scrolling Ticker Design --- */
+.scrolling-ticker {
+    background: rgba(255, 204, 0, 0.05);
+    border-bottom: 1px solid rgba(255, 204, 0, 0.1);
+    padding: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ticker-text {
+    display: inline-block;
+    color: #ffcc00;
+    font-size: 13px;
+    font-weight: 600;
+    /* ၁၅ စက္ကန့်ကြာတိုင်း တစ်ပတ်ပြန်လှည့်ပါမည် */
+    animation: scrollText 15s linear infinite; 
+}
+
+@keyframes scrollText {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+}
