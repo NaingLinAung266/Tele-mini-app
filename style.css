@@ -542,3 +542,22 @@ body.low-power .pulsing-dot, body.android-lite-mode .pulsing-dot { animation: br
     0% { transform: translateX(100vw); }
     100% { transform: translateX(-100%); }
 }
+
+/* --- Compact Balance Button Design --- */
+.compact-balance-btn {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #fff;
+    border-radius: 8px; /* ထောင့်လေးတွေ လုံးရန် */
+    padding: 4px 10px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent;
+    transition: background 0.2s;
+}
+
+.compact-balance-btn:active {
+    background: rgba(255, 255, 255, 0.2);
+}
