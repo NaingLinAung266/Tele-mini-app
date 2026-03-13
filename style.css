@@ -561,3 +561,40 @@ body.low-power .pulsing-dot, body.android-lite-mode .pulsing-dot { animation: br
 .compact-balance-btn:active {
     background: rgba(255, 255, 255, 0.2);
 }
+
+
+/* --- Light Theme (အဖြူရောင်) --- */
+.theme-light {
+    background-color: #f0f2f5 !important; /* နောက်ခံ အဖြူရောင် */
+    color: #222 !important; /* စာသား အမည်းရောင် */
+}
+
+.theme-light .top-header,
+.theme-light .game-card,
+.theme-light .promo-banner {
+    background: #ffffff !important;
+    border-color: #dddddd !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.theme-light .brand-title,
+.theme-light .game-info,
+.theme-light .compact-balance-btn,
+.theme-light .ticker-text {
+    color: #333 !important;
+}
+
+.theme-light .compact-balance-btn {
+    border-color: #888 !important;
+    color: #111 !important;
+}
+
+.theme-light .scrolling-ticker {
+    background: #ffffff !important;
+    border-color: #eee !important;
+}
+
+/* Icons တွေ အရောင်ပြောင်းရန် */
+.theme-light i:not(.fa-sun) {
+    color: #444 !important;
+}

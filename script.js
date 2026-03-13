@@ -74,25 +74,33 @@ function getSecureHeaders() {
     if (appToken) headers['Authorization'] = 'Bearer ' + appToken;
     return headers;
 }
-
-/* --- THEME & LOW POWER MODE --- */
 function toggleTheme() {
-    const themes = ['theme-dark', 'theme-blue', 'theme-green', 'theme-yellow', 'theme-purple', 'theme-red', 'theme-dark-blue'];
+    // အဖြူနဲ့ အမည်း နှစ်ခုတည်းပဲ ထားပါမယ်
+    const themes = ['theme-dark', 'theme-light']; 
     let currentTheme = localStorage.getItem('theme') || 'theme-dark';
     let currentIndex = themes.indexOf(currentTheme);
+    
+    if (currentIndex === -1) currentIndex = 0; 
+    
     let nextTheme = themes[(currentIndex + 1) % themes.length];
 
     document.body.className = document.body.className.replace(/theme-\w+(-\w+)?/g, '').trim();
     document.body.classList.add(nextTheme);
     localStorage.setItem('theme', nextTheme);
     
-    let isLowPower = document.body.classList.contains('android-lite-mode');
-    if(isLowPower && (nextTheme !== 'theme-dark' && nextTheme !== 'theme-blue')) {
-       document.body.classList.add('android-wallet-glass');
-    } else {
-       document.body.classList.remove('android-wallet-glass');
+    // Theme Icon ကို နေ/လ ပြောင်းရန်
+    const themeIcon = document.querySelector('.theme-btn i');
+    if(themeIcon) {
+        if(nextTheme === 'theme-light') {
+            themeIcon.className = 'fas fa-sun'; // အဖြူရောင်ဆိုရင် နေမင်းပုံ
+            themeIcon.style.color = '#ff9900';
+        } else {
+            themeIcon.className = 'fas fa-moon'; // အမည်းရောင်ဆိုရင် လမင်းပုံ
+            themeIcon.style.color = '#fff';
+        }
     }
 }
+
 
 let isLowPowerOn = localStorage.getItem('lowPowerMode') === 'true';
 const lpBtn = document.getElementById('lp-btn');
