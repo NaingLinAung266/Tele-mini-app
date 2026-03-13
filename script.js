@@ -77,7 +77,7 @@ function getSecureHeaders() {
 function toggleTheme() {
     // အဖြူနဲ့ အမည်း နှစ်ခုတည်းပဲ ထားပါမယ်
     const themes = ['theme-dark', 'theme-light']; 
-    let currentTheme = localStorage.getItem('theme') || 'theme-dark';
+    let currentTheme = localStorage.getItem('theme') || 'theme-light';
     let currentIndex = themes.indexOf(currentTheme);
     
     if (currentIndex === -1) currentIndex = 0; 
