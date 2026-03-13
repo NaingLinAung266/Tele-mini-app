@@ -30,7 +30,7 @@ body.low-power .server-btn-border::before { background: var(--accent); }
 body.low-power .topup-btn::before { display: none; }
 body.low-power .game-img-box { background: rgba(255,255,255,0.05) !important; }
 
-
+#bg-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, var(--accent), transparent 75%); opacity: 0.3; z-index: -1; pointer-events: none; transition: background 0.3s ease; }
 .header-bar { padding: 15px 20px; display: flex; justify-content: flex-end; align-items: center; width: 100%; box-sizing: border-box; margin-bottom: 10px; gap: 10px;}
 .theme-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--accent); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer; box-shadow: 0 0 10px var(--accent); transition: 0.3s; backdrop-filter: blur(5px); }
 .theme-btn.active-lp { background: var(--success-green); color: #000; border-color: var(--success-green); box-shadow: 0 0 10px var(--success-green); }
@@ -44,7 +44,7 @@ body.low-power .game-img-box { background: rgba(255,255,255,0.05) !important; }
 }
 .scrollable::-webkit-scrollbar { display: none; }
 .page-overlay { position: fixed; inset: 0; z-index: 200; background: var(--bg-base); transform: translateX(100%); transition: transform 0.25s ease-out; display: flex; flex-direction: column; }
-
+.page-overlay::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, var(--accent), transparent 80%); opacity: 0.2; z-index: -1; pointer-events: none; }
 .page-overlay.show { transform: translateX(0); }
 
 @keyframes waveFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
@@ -569,17 +569,6 @@ body.low-power .pulsing-dot, body.android-lite-mode .pulsing-dot { animation: br
     color: #ffffff !important; /* စာသား အဖြူရောင် */
 }
 
-/* Light Mode မှာ ခလုတ်ဘေးက Glow ဖျောက်ရန် */
-.theme-light .theme-btn {
-    box-shadow: none !important;
-    border-color: #888 !important;
-}
-
-/* Balance ခလုတ်ဘေးက Glow ကိုပါ ဖျောက်ချင်လျှင် */
-.theme-light .compact-balance-btn {
-    box-shadow: none !important;
-}
-
 /* Header, Game Cards နှင့် Banners များ၏ နောက်ခံအရောင် */
 .theme-light .top-header,
 .theme-light .game-card,
@@ -656,24 +645,4 @@ body.low-power .pulsing-dot, body.android-lite-mode .pulsing-dot { animation: br
 .fav-btn-main:active {
     background: rgba(255, 255, 255, 0.1) !important;
     transform: scale(0.98);
-}
-
-/* Page Overlays (Topup History စသည်) ကို Theme အလိုက် အရောင်ပြောင်းရန် */
-.theme-light .page-overlay {
-    background-color: #2b2b2b !important; /* Light Mode နောက်ခံ */
-    color: #ffffff !important;
-}
-
-.theme-light .section-header {
-    color: #ffffff !important;
-    text-shadow: none !important;
-}
-
-.theme-light .back-nav {
-    color: #ffffff !important;
-}
-
-/* Light Mode မှာ စာသားတွေကို ပိုကြည်လင်အောင် ထားပေးခြင်း */
-.theme-light #topup-history-list div {
-    color: #dddddd !important;
 }
