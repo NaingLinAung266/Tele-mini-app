@@ -10,6 +10,7 @@
     
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="theme-light">
 
 
@@ -32,8 +33,10 @@
 
 <div id="page-home" class="scrollable">
     
-        <div class="top-header">
-        
+    <div class="top-header">
+        <div class="brand-title">
+            <i class="fas fa-gamepad" style="color: #00eaff;"></i>
+        </div>
         
         <div style="display: flex; align-items: center; gap: 8px;">
             <div class="compact-balance-btn" onclick="openDeposit()">
@@ -42,18 +45,14 @@
             </div>
 
             <div class="theme-btn" onclick="toggleTheme()" style="position: static; margin: 0; background: rgba(255,255,255,0.1); width: 34px; height: 34px;">
-    <i class="fas fa-sun" style="color: #ff9900;"></i> </div>
-
-
-   
-   
-    
-    
-       <div class="promo-banner">
+                <i class="fas fa-sun" style="color: #ff9900;"></i>
+            </div>
+        </div>
+    </div> <div class="promo-banner">
         <img src="https://i.ibb.co/yFbWgnb8/banner.jpg" alt="Main Banner" id="top-banner-img">
     </div>
 
-            <div class="menu-grid">
+    <div class="menu-grid">
         <div class="fav-btn-main" onclick="openOrderHistory()">
             <div class="fav-text">Order History</div>
         </div>
@@ -63,10 +62,8 @@
         </div>
     </div>
 
-
-
-
     <div style="display: flex; align-items: center; justify-content: space-between; margin: 15px 0 10px 0; padding-right: 5px;">
+
         <div class="section-header" style="margin: 0; border: none; padding-left: 10px; display: flex; align-items: center; gap: 5px; cursor: pointer;" onclick="triggerAdminPanel()">
             <img src="https://media.tenor.com/PRcQePKtLYYAAAAj/blue-blueflame.gif" style="width: 33px; height: auto; object-fit: contain; margin-top: -10px; mix-blend-mode: screen; filter: drop-shadow(0 0 8px #00eaff);" alt="blue fire">
             
