@@ -514,22 +514,18 @@ async function fetchTopupHistory() {
                 </div>`;
             });
             list.innerHTML = html;
-        } else {
-            // မှတ်တမ်းမရှိလျှင် ပြသမည့် Empty State ဒီဇိုင်း
-            list.innerHTML = `
-                <div style="text-align:center; padding: 60px 20px;">
-                    <div style="position: relative; display: inline-block; margin-bottom: 20px;">
-                        <i class="fas fa-wallet" style="font-size: 50px; color: rgba(255,255,255,0.05);"></i>
-                        <i class="fas fa-history" style="position: absolute; bottom: 0; right: -5px; font-size: 20px; color: var(--accent); text-shadow: 0 0 10px var(--accent);"></i>
-                    </div>
-                    <p style="color:#fff; font-size: 14px; font-weight: 700; margin: 0;">ငွေဖြည့်မှတ်တမ်း မရှိသေးပါ</p>
-                    <p style="color:#666; font-size: 11px; margin-top: 5px;">ငွေဖြည့်သွင်းပြီးပါက ဤနေရာတွင် <br> ပြန်လည်ကြည့်ရှုနိုင်ပါသည်။</p>
-                </div>`;
-        }
-    } catch(e) { 
-        list.innerHTML = `<div style="text-align:center; color:#ff3333; padding:20px;">Error loading topup history</div>`; 
-    }
+        // script.js ထဲက fetchTopupHistory ရဲ့ else အပိုင်းမှာ အစားထိုးရန်
+} else {
+    list.innerHTML = `
+        <div style="text-align:center; padding: 50px 20px;">
+            <div style="position: relative; display: inline-block; margin-bottom: 15px;">
+                <i class="fas fa-wallet" style="font-size: 45px; color: rgba(255,255,255,0.03);"></i>
+                <i class="fas fa-history" style="position: absolute; bottom: 0; right: -5px; font-size: 18px; color: #39ff14; text-shadow: 0 0 10px #39ff14;"></i>
+            </div>
+            <p style="color:#fff; font-size: 13px; font-weight: 700; margin: 0;">ငွေဖြည့်မှတ်တမ်း မရှိသေးပါ</p>
+        </div>`;
 }
+
 
 
 async function fetchOrderHistory() {
