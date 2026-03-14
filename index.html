@@ -330,81 +330,59 @@
     </div>
 </div>
 
-<div id="deposit-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:10000; justify-content:center; align-items:center; padding:20px;">
-    <div class="modal-content" style="max-width:350px; max-height: 85vh; overflow-y: auto;">
-        <div style="margin-bottom:10px; background:rgba(255,255,255,0.05); padding:10px; border-radius:12px; display:flex; align-items:center; cursor:pointer; border:1px solid var(--glass-border);" onclick="document.getElementById('deposit-modal').style.display='none'; openPage('page-admin-topup');">
-            <div style="width:35px; height:35px; background:#0088cc; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-right:10px;"><i class="fab fa-telegram-plane" style="color:#fff; font-size:18px;"></i></div>
-            <div style="text-align:left;"><div style="font-size:12px; font-weight:bold; color:#fff;">Contact Admin</div><div style="font-size:9px; color:var(--text-sec);">ငွေလွှဲပြေစာမတင်တတ်လျှင်နှိပ်ပါ</div></div>
-            <i class="fas fa-chevron-right" style="margin-left:auto; color:#777; font-size: 12px;"></i>
-        </div>
-
-        <div style="background: rgba(255, 51, 51, 0.08); border: 1px solid rgba(255, 51, 51, 0.3); border-radius: 10px; margin-bottom: 15px; overflow: hidden;">
-            <div onclick="const content = document.getElementById('tips-content'); const icon = document.getElementById('tips-icon'); if(content.style.display === 'none'){ content.style.display='block'; icon.style.transform='rotate(180deg)'; } else { content.style.display='none'; icon.style.transform='rotate(0deg)'; }" style="padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: rgba(255, 51, 51, 0.05);">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-exclamation-triangle" style="color: #ff3333; font-size: 13px;"></i>
-                    <span style="color: #ff3333; font-size: 11px; font-weight: bold; letter-spacing: 0.3px;">Noteကို Payment တခုပဲရေးပေးပါ</span>
-                </div>
-                <i id="tips-icon" class="fas fa-chevron-down" style="color: #ff3333; font-size: 12px; transition: transform 0.3s;"></i>
-            </div>
-            <div id="tips-content" style="display: none; padding: 0 12px 10px 12px; border-top: 1px dashed rgba(255, 51, 51, 0.2); margin-top: 5px; padding-top: 10px;">
-                <div style="display: flex; align-items: start; gap: 8px; text-align: left;">
-                    <i class="fas fa-lightbulb" style="color: #ffd700; font-size: 14px; margin-top: 2px;"></i>
-                    <div style="font-size: 10px; color: #ccc; line-height: 1.6;">
-                        <span style="color:#ffd700; font-weight:bold;">Tips:</span> Logo ကို <b style="color:#fff">၁ ချက်နှိပ်</b> လျှင် Copy ကူးမည်။<br> <b style="color:#fff">၂ ချက်ဆက်တိုက်နှိပ်</b> လျှင် QR Code ပေါ်မည်။
-                    </div>
-                </div>
-            </div>
-        </div>
-
-<div class="pay-grid" style="gap: 8px; margin-bottom: 10px;">
-            <div class="pay-card pay-kbz" onclick="handlePayTap('09794195735', 'https://i.ibb.co/dJMHbm8T/IMG-4321.jpg')">
-                <div class="pay-inner">
-                    <img src="https://i.pinimg.com/736x/32/b3/1b/32b31b0b9e8ed68f05e52818d3b37bad.jpg" class="pay-logo">
-                    <div class="pay-info">
-                        <div class="pay-num">09794195735</div>
-                        <div class="pay-name">Thidar Nwe (Kpay)</div>
-                    </div>
-                </div>
-            </div>
-            <div class="pay-card pay-wave" onclick="handlePayTap('09760793508', 'https://i.ibb.co/wr0K3ZHV/IMG-2715.jpg')">
-                <div class="pay-inner">
-                    <img src="https://play-lh.googleusercontent.com/rPq4GMCZy12WhwTlanEu7RzxihYCgYevQHVHLNha1VcY5SU1uLKHMd060b4VEV1r-OQ=w240-h480-rw" class="pay-logo" onerror="this.src='https://yt3.googleusercontent.com/ytc/AIdro_k6-hV_J-8V8J5X5S5R5R5R5R5R5R5R5R5R5R=s900-c-k-c0x00ffffff-no-rj'">
-                    <div class="pay-info"><div class="pay-num">09760793508</div><div class="pay-name">MNP (Wave Pay)</div></div>
-                </div>
-            </div>
-            <div class="pay-card pay-uab" onclick="handlePayTap('09794195735', 'https://i.ibb.co/23mHbXtb/IMG-0834.jpg')">
-                <div class="pay-inner">
-                    <img src="https://play-lh.googleusercontent.com/j1ZiQVB8jFi2sZslkh1vN419gvRIN5VGif6749zljhWldRjmC7_dOF_y1jcuq3rwnQ=w600-h300-pc0xffffff-pd" class="pay-logo">
-                    <div class="pay-info"><div class="pay-num">09794195735</div><div class="pay-name">MNP (UAB PAY)</div></div>
-                </div>
-            </div>
-            <div class="pay-card pay-aya" onclick="handlePayTap('09794195735', 'https://i.ibb.co/gFf5zWLs/IMG-0831.jpg')">
-                <div class="pay-inner">
-                    <img src="https://play-lh.googleusercontent.com/Lgulng3ncFuuFVYTmT-JQxuZ_IQ9-iPCojY5lM6c3wK9uvSx_ZRqLGcq8dTQcez1HDvQiSvfmJHZN1EHg1oWfLk" class="pay-logo">
-                    <div class="pay-info"><div class="pay-num">09794195735</div><div class="pay-name">MNP (AYA)</div></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="amount-options">
-            <div class="amount-tag" onclick="selectAmount(5000, this)">5,000</div>
-            <div class="amount-tag" onclick="selectAmount(10000, this)">10,000</div>
-            <div class="amount-tag" onclick="selectAmount(50000, this)">50,000</div>
-            <div class="amount-tag" onclick="selectAmount(100000, this)">100,000</div>
-        </div>
-
-        <input type="number" id="dep-amount" placeholder="အခြားပမာဏ ရိုက်ထည့်ပါ..." enterkeyhint="done" style="margin-top:0px; margin-bottom: 8px; width: 100%; box-sizing: border-box; padding: 10px; font-size: 14px;">
+<div id="deposit-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:10000; justify-content:center; align-items:center; backdrop-filter: blur(15px); padding:20px;">
+    <div class="modal-content" style="width: 100%; max-width: 360px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 25px; color: #fff; text-align: left; overflow-y: auto; max-height: 85vh;">
         
-        <div class="upload-btn" style="width: 50%; margin: 10px auto; padding: 10px; border: 1px dashed var(--text-sec); border-radius: 12px; cursor: pointer; text-align: center; background: rgba(255,255,255,0.05); display: block;" onclick="triggerFileSelect()">
-            <div id="dep-txt" style="font-size: 11px; color: var(--text-sec); font-weight: 500;">📸 Upload Receipt</div>
-            <input type="file" id="dep-file" accept="image/png, image/jpeg, image/jpg" style="display: none;" onchange="handleNativeFileSelect(event)">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="margin: 0; font-size: 18px; font-weight: 700;">Top Up</h3>
+            <i class="fas fa-times" style="cursor: pointer; color: #777; font-size: 20px;" onclick="document.getElementById('deposit-modal').style.display='none'"></i>
+        </div>
+
+        <div class="pay-list">
+            <div class="pay-card-new active" onclick="selectPayNew(this)">
+                <img src="https://i.ibb.co/kpay-logo.png" class="pay-logo-new">
+                <div class="pay-info-new">
+                    <div class="pay-num-new">09794195735</div>
+                    <div class="pay-name-new">Thidar Nwe (Kpay)</div>
+                </div>
+                <div class="pay-actions">
+                    <button class="pay-action-btn" onclick="event.stopPropagation(); openQR('https://i.ibb.co/dJMHbm8T/IMG-4321.jpg')"><i class="fas fa-qrcode"></i></button>
+                    <button class="pay-action-btn" onclick="event.stopPropagation(); copyText('09794195735')"><i class="fas fa-copy"></i></button>
+                </div>
+            </div>
+
+            <div class="pay-card-new" onclick="selectPayNew(this)">
+                <img src="https://i.ibb.co/wave-logo.png" class="pay-logo-new">
+                <div class="pay-info-new">
+                    <div class="pay-num-new">09760793508</div>
+                    <div class="pay-name-new">MNP (Wave Pay)</div>
+                </div>
+                <div class="pay-actions">
+                    <button class="pay-action-btn" onclick="event.stopPropagation(); openQR('https://i.ibb.co/wr0K3ZHV/IMG-2715.jpg')"><i class="fas fa-qrcode"></i></button>
+                    <button class="pay-action-btn" onclick="event.stopPropagation(); copyText('09760793508')"><i class="fas fa-copy"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="amt-chip-grid" style="margin-top: 20px;">
+            <button class="amt-chip" onclick="setAmt(5000, this)">5,000</button>
+            <button class="amt-chip" onclick="setAmt(10000, this)">10,000</button>
+            <button class="amt-chip" onclick="setAmt(50000, this)">50,000</button>
+            <button class="amt-chip" onclick="setAmt(100000, this)">100,000</button>
+            <button class="amt-chip" onclick="setAmt(250000, this)">250,000</button>
+            <button class="amt-chip" onclick="setAmt(500000, this)">500,000</button>
+        </div>
+
+        <input type="number" id="custom-amount" placeholder="Enter amount" style="width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 14px; border-radius: 12px; margin: 15px 0; text-align: center; font-weight: 700; outline: none; font-size: 16px;">
+
+        <div id="file-status" class="hsa-upload-box" onclick="document.getElementById('deposit-file').click()">
+            <i class="fas fa-image" style="font-size: 24px; color: #777; margin-bottom: 5px;"></i>
+            <div id="upload-txt" style="color: #777; font-size: 12px; font-weight: 600;">Upload Receipt</div>
+            <input type="file" id="deposit-file" hidden onchange="handleFile(this)">
             <input type="hidden" id="dep-file-base64">
         </div>
-        
-        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-            <button class="btn" style="width: 110px; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-sec); padding: 8px; font-size: 13px; border-radius: 50px;" onclick="document.getElementById('deposit-modal').style.display='none'">Cancel</button>
-            <button class="btn" id="btn-submit-dep" style="width: 110px; padding: 8px; font-size: 14px; border-radius: 50px;" onclick="submitDeposit()">Submit</button>
-        </div>
+
+        <button class="hsa-submit-btn" id="btn-submit-dep" onclick="submitDeposit()">SUBMIT</button>
     </div>
 </div>
 

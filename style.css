@@ -810,7 +810,7 @@ body.low-power .pulsing-dot, body.android-lite-mode .pulsing-dot { animation: br
 }
 
 
-/* --- ဒုတိယပုံစံအတိုင်း ခလုတ်ဒီဇိုင်း ပြင်ဆင်ခြင်း --- */
+
 .fav-btn-main {
     background: transparent !important; /* နောက်ခံအရောင်ဖျက်မည် */
     border: 1.5px solid rgba(255, 255, 255, 0.8) !important; /* အဖြူရောင်ဘောင်ထည့်မည် */
@@ -831,8 +831,75 @@ body.low-power .pulsing-dot, body.android-lite-mode .pulsing-dot { animation: br
     text-transform: none;
 }
 
-/* ခလုတ်နှိပ်လိုက်လျှင် အရောင်ပြောင်းရန် */
 .fav-btn-main:active {
     background: rgba(255, 255, 255, 0.1) !important;
     transform: scale(0.98);
 }
+
+.status-fail { 
+    background: rgba(255, 51, 51, 0.1) !important; 
+    color: #ff3333 !important; 
+    border: 1px solid rgba(255, 51, 51, 0.3) !important; 
+}
+
+/* --- Failed Topup Card Styles --- */
+.topup-card.failed {
+    border-left: 4px solid #ff3333 !important; /* ဘေးမျဉ်းတန်းကို အနီရောင်ပြောင်းခြင်း */
+}
+
+.topup-card.failed .topup-amount {
+    color: #ff3333 !important; /* ငွေပမာဏကို အနီရောင်ပြောင်းခြင်း */
+    text-shadow: 0 0 10px rgba(255, 51, 51, 0.4) !important;
+}
+
+.status-fail { 
+    background: rgba(255, 51, 51, 0.1) !important; 
+    color: #ff3333 !important; 
+    border: 1px solid rgba(255, 51, 51, 0.3) !important; 
+}
+
+
+/* --- New Vertical Payment List Design --- */
+.pay-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
+.pay-card-new {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.pay-card-new.active {
+    border-color: #ff0073;
+    background: rgba(255, 0, 115, 0.05);
+    box-shadow: 0 0 15px rgba(255, 0, 115, 0.1);
+}
+
+.pay-logo-new { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; }
+
+.pay-info-new { flex: 1; text-align: left; }
+.pay-num-new { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 2px; }
+.pay-name-new { font-size: 10px; color: #aaa; }
+
+.pay-actions { display: flex; gap: 8px; }
+.pay-action-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.pay-action-btn:active { background: #ff0073; border-color: #ff0073; transform: scale(0.9); }

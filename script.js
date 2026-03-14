@@ -498,36 +498,37 @@ async function fetchTopupHistory() {
         let html = '';
         if(data && data.length > 0) {
             data.forEach(item => {
-                const statusLabel = item.status === 'pending' ? 'PENDING' : 'SUCCESS';
-                const statusClass = item.status === 'pending' ? 'status-pending' : 'status-success';
+                // Status စစ်ဆေးခြင်း
+                const isFailed = item.status === 'cancelled';
+                const statusLabel = item.status === 'success' ? 'SUCCESS' : (isFailed ? 'FAILED' : 'PENDING');
+                const statusClass = item.status === 'success' ? 'status-success' : (isFailed ? 'status-fail' : 'status-pending');
                 
+                // Card ၏ Class ကို သတ်မှတ်ခြင်း (Failed ဖြစ်လျှင် အနီရောင်ဘောင် ပေါ်စေရန်)
+                const cardClass = isFailed ? 'topup-card failed' : 'topup-card';
+                
+                // Date နှင့် Time ကို မြန်မာစံတော်ချိန်အတိုင်း ယူခြင်း
+                const dateObj = item.created_at ? new Date(item.created_at) : null;
+                const dateStr = (dateObj && !isNaN(dateObj)) ? dateObj.toLocaleDateString('en-GB') : 'N/A';
+                const timeStr = (dateObj && !isNaN(dateObj)) ? dateObj.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: true}) : '';
+
                 html += `
-                <div class="topup-card">
+                <div class="${cardClass}">
                     <div class="topup-header">
                         <div class="topup-amount">+ ${item.amount.toLocaleString()} Ks</div>
                         <div class="topup-status ${statusClass}">${statusLabel}</div>
                     </div>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div style="font-size:11px; color:#aaa;"><i class="far fa-calendar-alt"></i> ${new Date(item.created_at).toLocaleDateString()}</div>
-                        <div style="font-size:11px; color:#aaa;"><i class="far fa-clock"></i> ${new Date(item.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                        <div style="font-size:11px; color:#aaa;"><i class="far fa-calendar-alt"></i> ${dateStr}</div>
+                        <div style="font-size:11px; color:#aaa;"><i class="far fa-clock"></i> ${timeStr}</div>
                     </div>
                 </div>`;
             });
             list.innerHTML = html;
-        
-} else {
-    list.innerHTML = `
-        <div style="text-align:center; padding: 50px 20px;">
-            <div style="position: relative; display: inline-block; margin-bottom: 15px;">
-                <i class="fas fa-wallet" style="font-size: 45px; color: rgba(255,255,255,0.03);"></i>
-                <i class="fas fa-history" style="position: absolute; bottom: 0; right: -5px; font-size: 18px; color: #39ff14; text-shadow: 0 0 10px #39ff14;"></i>
-            </div>
-            <p style="color:#fff; font-size: 13px; font-weight: 700; margin: 0;">ငွေဖြည့်မှတ်တမ်း မရှိသေးပါ</p>
-        </div>`;
-}
-
+        } else {
+            list.innerHTML = `<div style="text-align:center; padding: 50px 20px;"><p style="color:#aaa;">ငွေဖြည့်မှတ်တမ်း မရှိသေးပါ</p></div>`;
+        }
     } catch(e) { 
-        list.innerHTML = `<div style="text-align:center; color:#ff3333; padding:20px;">Error loading topup history</div>`; 
+        list.innerHTML = `<div style="text-align:center; color:#ff3333; padding:20px;">Error loading history</div>`; 
     }
 }
 
@@ -624,9 +625,40 @@ function toggleBalance(icon) {
     const hdrEl = document.getElementById('header-balance');
     if (balEl.innerText === '******') {
         loadUserData();
-        icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye');
+        icon.classList.remove('fa-eye-slash'); 
+        icon.classList.add('fa-eye');
     } else {
-        balEl.innerText = '******'; hdrEl.innerText = '******';
-        icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash');
+        balEl.innerText = '******'; 
+        hdrEl.innerText = '******';
+        icon.classList.remove('fa-eye'); 
+        icon.classList.add('fa-eye-slash');
     }
+}
+
+// Card ရွေးချယ်ခြင်း
+function selectPayNew(el) {
+    document.querySelectorAll('.pay-card-new').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    playVibration();
+}
+
+// ဖုန်းနံပါတ် Copy ကူးခြင်း
+function copyText(text) {
+    navigator.clipboard.writeText(text);
+    Swal.fire({ toast: true, position: 'top', icon: 'success', title: `Copied: ${text}`, showConfirmButton: false, timer: 1500 });
+    playVibration();
+}
+
+// QR Code ပြသခြင်း
+function openQR(url) {
+    Swal.fire({
+        imageUrl: url,
+        imageWidth: 280,
+        imageHeight: 280,
+        background: '#1a1a1a',
+        showConfirmButton: true,
+        confirmButtonText: 'CLOSE',
+        confirmButtonColor: '#ff0073'
+    });
+    playVibration();
 }
