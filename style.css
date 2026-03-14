@@ -590,9 +590,39 @@ body.android-lite-mode #deposit-modal .modal-content, body.android-lite-mode #or
 .float-sub-btn { background: rgba(20, 25, 30, 0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 14px; border-radius: 20px; display: flex; align-items: center; gap: 6px; color: #fff; font-size: 12px; font-weight: 800; box-shadow: 0 5px 15px rgba(0,0,0,0.5); cursor: pointer; transition: transform 0.2s; white-space: nowrap; }
 .float-sub-btn:active { transform: scale(0.9); border-color: var(--accent); }
 
-#custom-loading-screen { position: fixed; inset: 0; background-color: var(--bg-base); display: flex; justify-content: center; align-items: center; z-index: 99999; transition: opacity 0.5s ease; }
-.css-spinner { width: 50px; height: 50px; border: 5px solid rgba(255, 255, 255, 0.1); border-radius: 50%; border-top-color: var(--accent); animation: spin 1s ease-in-out infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
+/* style.css (Line 354 ဝန်းကျင်ရှိ loading ကုဒ်အဟောင်းများနေရာတွင် အစားထိုးရန်) */
+#custom-loading-screen {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a !important; /* ပိုမှောင်သော နောက်ခံ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.5s ease;
+}
+
+.splash-logo {
+    font-size: 80px;
+    color: #00eaff; /* လူကြီးမင်း UI အရောင် (Neon Cyan) */
+    filter: drop-shadow(0 0 20px #00eaff);
+    animation: splashPulse 2s infinite ease-in-out;
+}
+
+.brand-name {
+    margin-top: 15px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(0, 234, 255, 0.5);
+    text-align: center;
+}
+
+@keyframes splashPulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
 
 .live-feed-container { background: rgba(0, 0, 0, 0.4); border-radius: 16px; padding: 12px 15px; margin-bottom: 25px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
 .feed-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 8px; }
