@@ -369,10 +369,11 @@ input:focus { border-color: var(--accent); box-shadow: 0 0 10px var(--accent); }
 }
 
 
+/* --- Topup History Glassmorphism Design --- */
 .topup-card {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.6) 100%) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-left: 4px solid #39ff14 !important;
+    border-left: 4px solid #39ff14 !important; /* ငွေသွင်းခြင်းဖြစ်၍ အစိမ်းရောင်လိုင်း သုံးထားသည် */
     border-radius: 16px !important;
     padding: 16px !important;
     margin-bottom: 12px !important;
@@ -403,9 +404,8 @@ input:focus { border-color: var(--accent); box-shadow: 0 0 10px var(--accent); }
     text-transform: uppercase;
 }
 
-/* Status အရောင်များ */
-.status-pending { background: rgba(255, 165, 0, 0.1); color: #ffa500; border: 1px solid rgba(255, 165, 0, 0.3); }
-.status-success { background: rgba(57, 255, 20, 0.1); color: #39ff14; border: 1px solid rgba(57, 255, 20, 0.3); }
+.status-pending { background: rgba(255, 165, 0, 0.1) !important; color: #ffa500 !important; border: 1px solid rgba(255, 165, 0, 0.3) !important; }
+.status-success { background: rgba(57, 255, 20, 0.1) !important; color: #39ff14 !important; border: 1px solid rgba(57, 255, 20, 0.3) !important; }
 
 
 .amount-options { display: flex; gap: 5px; margin-bottom: 10px; }
