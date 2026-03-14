@@ -480,15 +480,17 @@ btn.disabled = false;
 
 }
 
-/* --- HISTORY & DRAWER --- */
+
 function openOrderHistory() {
     document.getElementById('order-history-modal').style.display = 'flex';
     fetchOrderHistory();
 }
 
+
 async function fetchOrderHistory() {
     const list = document.getElementById('order-history-list');
-    list.innerHTML = "Loading...";
+    list.innerHTML = `<div style="text-align:center; padding: 20px;"><div class="css-spinner" style="width:30px; height:30px; margin:auto;"></div></div>`;
+    
     try {
         const res = await fetch(`${API_BASE_URL}/api/history/${user_id}`);
         const data = await res.json();
@@ -496,24 +498,34 @@ async function fetchOrderHistory() {
         let html = '';
         if(data && data.length > 0) {
             data.forEach(item => {
+                const statusClass = item.status === 'success' ? 'st-success' : 'st-refund';
+                const statusIcon = item.status === 'success' ? 'fa-check-circle' : 'fa-times-circle';
+                
                 html += `
                 <div class="order-card" onclick="openDetailsModal('${item.id}')">
                     <div class="order-header">
-                        <div class="ord-id">${item.game.toUpperCase()}</div>
-                        <div class="ord-ign">${item.ign}</div>
+                        <div class="ord-id"><i class="fas fa-gamepad"></i> ${item.game.toUpperCase()}</div>
+                        <div class="ord-ign">@${item.ign}</div>
                     </div>
                     <div class="ord-item">${item.item_name}</div>
                     <div class="order-footer">
-                        <div class="ord-date">${new Date(item.created_at).toLocaleDateString()}</div>
-                        <div class="${item.status === 'success' ? 'st-success' : 'st-refund'}">${item.status}</div>
+                        <div class="ord-date"><i class="far fa-clock"></i> ${new Date(item.created_at).toLocaleDateString()}</div>
+                        <div class="${statusClass}"><i class="fas ${statusIcon}"></i> ${item.status.toUpperCase()}</div>
                     </div>
                 </div>`;
             });
             list.innerHTML = html;
         } else {
-            list.innerHTML = "No orders found.";
+            
+            list.innerHTML = `
+                <div style="text-align:center; color:#555; padding: 50px 20px;">
+                    <i class="fas fa-box-open" style="font-size: 40px; margin-bottom: 15px; opacity: 0.3;"></i>
+                    <p style="font-size: 13px; font-weight: 600;">မှတ်တမ်း မရှိသေးပါ</p>
+                </div>`;
         }
-    } catch(e) { list.innerHTML = "Error loading history."; }
+    } catch(e) { 
+        list.innerHTML = `<div style="text-align:center; color:#ff3333; padding:20px;">Error loading history</div>`; 
+    }
 }
 
 function openDrawer() {
