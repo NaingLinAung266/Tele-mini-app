@@ -250,7 +250,43 @@ input:focus { border-color: var(--accent); box-shadow: 0 0 10px var(--accent); }
 .history-item { background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); border: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid var(--accent) !important; border-radius: 12px; padding: 12px 15px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
 .history-item:active { background: rgba(255,255,255,0.1); }
 
-#order-history-modal .modal-content { background: rgba(5, 25, 30, 0.7) !important; backdrop-filter: blur(25px) !important; -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.15) !important; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important; border-radius: 24px !important; }
+/* style.css ထဲတွင် ပြင်ရန် */
+#order-history-modal .modal-content {
+    background: rgba(10, 15, 20, 0.9) !important; /* ပိုမှောင်ပြီး Pro ကျသောအရောင် */
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(0, 234, 255, 0.2) !important; /* အပြာနုရောင် ဘောင်ဖျော့ဖျော့ */
+    border-top: 3px solid var(--accent) !important; /* အပေါ်ဘက်တွင် Accent line ထည့်ခြင်း */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 234, 255, 0.1) !important;
+    border-radius: 24px !important;
+    max-width: 340px !important;
+}
+
+/* Modal Title ကို ပြင်ဆင်ခြင်း */
+#order-history-modal h3 {
+    color: #fff !important;
+    font-size: 17px !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px var(--accent);
+}
+
+/* Close Button ကို ပြင်ဆင်ခြင်း */
+#order-history-modal button {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 14px !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    transition: 0.3s;
+}
+
+#order-history-modal button:active {
+    background: var(--accent) !important;
+    color: #000 !important;
+    transform: scale(0.95);
+}
+
 #order-history-list { padding: 5px; max-height: 70vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 
 

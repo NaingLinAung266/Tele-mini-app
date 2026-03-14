@@ -489,6 +489,7 @@ function openOrderHistory() {
 
 async function fetchOrderHistory() {
     const list = document.getElementById('order-history-list');
+    // Loading ပြနေစဉ် spinner ပြသမည်
     list.innerHTML = `<div style="text-align:center; padding: 20px;"><div class="css-spinner" style="width:30px; height:30px; margin:auto;"></div></div>`;
     
     try {
@@ -516,17 +517,22 @@ async function fetchOrderHistory() {
             });
             list.innerHTML = html;
         } else {
-            
+            // --- မှတ်တမ်းမရှိသည့်အခါ ပြသရန် ဒီဇိုင်းအသစ် ---
             list.innerHTML = `
-                <div style="text-align:center; color:#555; padding: 50px 20px;">
-                    <i class="fas fa-box-open" style="font-size: 40px; margin-bottom: 15px; opacity: 0.3;"></i>
-                    <p style="font-size: 13px; font-weight: 600;">မှတ်တမ်း မရှိသေးပါ</p>
+                <div style="text-align:center; padding: 60px 20px;">
+                    <div style="position: relative; display: inline-block; margin-bottom: 20px;">
+                        <i class="fas fa-receipt" style="font-size: 50px; color: rgba(255,255,255,0.05);"></i>
+                        <i class="fas fa-search" style="position: absolute; bottom: 0; right: -5px; font-size: 20px; color: var(--accent); text-shadow: 0 0 10px var(--accent);"></i>
+                    </div>
+                    <p style="color:#fff; font-size: 14px; font-weight: 700; margin: 0;">အော်ဒါမှတ်တမ်း မရှိသေးပါ</p>
+                    <p style="color:#666; font-size: 11px; margin-top: 5px;">ပစ္စည်းဝယ်ယူပြီးပါက ဤနေရာတွင် <br> ပြန်လည်ကြည့်ရှုနိုင်ပါသည်။</p>
                 </div>`;
         }
     } catch(e) { 
         list.innerHTML = `<div style="text-align:center; color:#ff3333; padding:20px;">Error loading history</div>`; 
     }
 }
+
 
 function openDrawer() {
     document.getElementById('side-drawer').classList.add('open');
