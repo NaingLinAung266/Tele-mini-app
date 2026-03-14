@@ -514,7 +514,7 @@ async function fetchTopupHistory() {
                 </div>`;
             });
             list.innerHTML = html;
-        // script.js ထဲက fetchTopupHistory ရဲ့ else အပိုင်းမှာ အစားထိုးရန်
+        
 } else {
     list.innerHTML = `
         <div style="text-align:center; padding: 50px 20px;">
@@ -526,6 +526,10 @@ async function fetchTopupHistory() {
         </div>`;
 }
 
+    } catch(e) { 
+        list.innerHTML = `<div style="text-align:center; color:#ff3333; padding:20px;">Error loading topup history</div>`; 
+    }
+}
 
 
 async function fetchOrderHistory() {
