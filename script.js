@@ -2,9 +2,9 @@
    SCRIPT.JS - COMPLETE COMPILED JAVASCRIPT
    ========================================= */
 
-/* --- SYSTEM CONFIGURATION --- */
-const API_BASE_URL = 'https://api.yourdomain.com'; // ကိုယ်ပိုင် Backend URL ပြောင်းရန်
-const API_KEY = "MyNewSecretKey123!@#"; // ကိုယ်ပိုင် API Key ပြောင်းရန်
+const API_BASE_URL = "https://kyawzin.online";
+
+const API_KEY = "kzh12345"; // ကိုယ်ပိုင် API Key ပြောင်းရန်
 
 /* --- TELEGRAM INITIALIZATION --- */
 const tg = window.Telegram.WebApp;
@@ -413,34 +413,72 @@ function handleNativeFileSelect(event) {
 }
 
 async function submitDeposit() {
-    let amt = document.getElementById('dep-amount').value;
-    let fileBase64 = document.getElementById('dep-file-base64').value;
-    
-    if (!amt || amt < 1000) { Swal.fire('Error', 'အနည်းဆုံး ၁၀၀၀ ကျပ် ဖြည့်ပါ။', 'error'); return; }
-    if (!fileBase64) { Swal.fire('Error', 'ငွေလွှဲပြေစာ ပုံထည့်ပါ။', 'error'); return; }
 
-    let btn = document.getElementById('btn-submit-dep');
-    btn.innerHTML = 'Submitting...'; btn.disabled = true;
+let amt = document.getElementById('dep-amount').value;
+let fileBase64 = document.getElementById('dep-file-base64').value;
 
-    try {
-        const res = await fetch(`${API_BASE_URL}/api/deposit`, {
-            method: 'POST',
-            headers: getSecureHeaders(),
-            body: JSON.stringify({ user_id: user_id, amount: amt, file: fileBase64, tg_username: tg_username })
-        });
-        const data = await res.json();
-        
-        if (data.success) {
-            Swal.fire('Success', 'ပြေစာတင်ပြီးပါပြီ။ Admin မှစစ်ဆေးပေးပါမည်။', 'success');
-            document.getElementById('deposit-modal').style.display = 'none';
-        } else {
-            Swal.fire('Error', 'Failed to submit', 'error');
-        }
-    } catch(e) { Swal.fire('Error', 'Server error', 'error'); }
-
-    btn.innerHTML = 'Submit'; btn.disabled = false;
+if (!amt || parseInt(amt) < 1000) {
+    Swal.fire('Error', 'အနည်းဆုံး ၁၀၀၀ ကျပ် ဖြည့်ပါ။', 'error');
+    return;
 }
 
+if (!fileBase64) {
+    Swal.fire('Error', 'ငွေလွှဲပြေစာ ပုံထည့်ပါ။', 'error');
+    return;
+}
+
+let btn = document.getElementById('btn-submit-dep');
+btn.innerHTML = 'Submitting...';
+btn.disabled = true;
+
+try {
+
+    const res = await fetch("https://kyawzin.online/api/deposit", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "x-api-key": API_KEY
+        },
+        body: JSON.stringify({
+            user_id: String(user_id),
+            tg_username: String(tg_username),
+            amount: parseInt(amt),
+            file: fileBase64
+        })
+    });
+
+    if (!res.ok) {
+        throw new Error("HTTP error " + res.status);
+    }
+
+    const data = await res.json();
+
+    if (data.success === true) {
+
+        Swal.fire('Success', 'ပြေစာတင်ပြီးပါပြီ။ Admin မှစစ်ဆေးပေးပါမည်။', 'success');
+
+        document.getElementById('deposit-modal').style.display = 'none';
+
+        document.getElementById('dep-amount').value = "";
+        document.getElementById('dep-file-base64').value = "";
+
+    } else {
+
+        Swal.fire('Error', data.detail || 'Failed to submit', 'error');
+
+    }
+
+} catch (e) {
+
+    console.error("Deposit Error:", e);
+    Swal.fire('Error', 'Server error / API မရောက်ပါ', 'error');
+
+}
+
+btn.innerHTML = 'Submit';
+btn.disabled = false;
+
+}
 
 /* --- HISTORY & DRAWER --- */
 function openOrderHistory() {
