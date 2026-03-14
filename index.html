@@ -53,14 +53,15 @@
     </div>
 
     <div class="menu-grid">
-        <div class="fav-btn-main" onclick="openOrderHistory()">
-            <div class="fav-text">Order History</div>
-        </div>
-        
-        <div class="fav-btn-main" onclick="openPage('page-topup-history')">
-            <div class="fav-text">Topup History</div>
-        </div>
+    <div class="fav-btn-main" onclick="openOrderHistory()">
+        <div class="fav-text">Order History</div>
     </div>
+    
+    <div class="fav-btn-main" onclick="openPage('page-topup-history'); fetchTopupHistory();">
+        <div class="fav-text">Topup History</div>
+    </div>
+</div>
+
 
     <div style="display: flex; align-items: center; justify-content: space-between; margin: 15px 0 10px 0; padding-right: 5px;">
 
