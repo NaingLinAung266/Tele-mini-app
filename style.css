@@ -369,6 +369,44 @@ input:focus { border-color: var(--accent); box-shadow: 0 0 10px var(--accent); }
 }
 
 
+.topup-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.6) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-left: 4px solid #39ff14 !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+    margin-bottom: 12px !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.topup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.topup-amount {
+    color: #39ff14 !important;
+    font-weight: 900 !important;
+    font-size: 16px !important;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+}
+
+.topup-status {
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    padding: 4px 10px !important;
+    border-radius: 50px !important;
+    text-transform: uppercase;
+}
+
+/* Status အရောင်များ */
+.status-pending { background: rgba(255, 165, 0, 0.1); color: #ffa500; border: 1px solid rgba(255, 165, 0, 0.3); }
+.status-success { background: rgba(57, 255, 20, 0.1); color: #39ff14; border: 1px solid rgba(57, 255, 20, 0.3); }
+
 
 .amount-options { display: flex; gap: 5px; margin-bottom: 10px; }
 .amount-tag { flex: 1; padding: 8px; background: #333; border: 1px solid #555; border-radius: 6px; cursor: pointer; font-size: 12px; color:#fff; }
